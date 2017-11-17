@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/style.css"/>
+        <title>IMAGEBOARD</title>
+    </head>
+<body>
+    <h1><center>IMAGEBOARD</center></h1>
+    <a href="/delete_all">Delete all data<br/></a>
+    {% for item in posts %}<b>
+        Post {{ item.id }},
+        Author: {{ item.author }},
+        date created: {{ item.date_created.strftime('%Y-%m-%d') }}</b> <br/>
+        <b>Post text:</b> <br/>{{ item.mess_txt }} <br/>
+        <b>Comments:</b><br/>
+        <ul>
+        {% for comm in item.comments %}
+            <li>
+            Author: <i>{{ comm.author }}</i>
+            Date created: {{ comm.date_created.strftime('%Y-%m-%d') }} <br/>
+            Comment: <i> {{ comm.mess_txt }} </i><br/>
+            </li>
+        {% endfor %}
+            <br/>
+            Add Comment
+             <form action="{{ url_for('add_comment', post_id=item.id) }}" method=post name="add_comm">
+                <table>
+                    <tr>
+                        <td>Author:</td>
+                        <td><input type=text name=author></td>
+                    </tr>
+                    <tr>
+                        <td>Comment:</td>
+                        <td><input type=text name=mess_txt></td>
+                    </tr>
+                </table>
+                <input type=submit value=Go!>
+             </form>
+        </ul>
+    <hr>
+    {% endfor %}
+    <form action="{{ url_for('index') }}" method=post name="add_post">
+        Add Post
+        <dl>
+            <dt>Author: <input type=text name=author>
+            <dt>Post:
+            <p><textarea rows="5" cols="30" name="mess_txt"></textarea></p>
+            <dd><input type=submit value=Go!>
+        </dl>
+    </form>
+</body>
+</html>
+
